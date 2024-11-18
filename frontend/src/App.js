@@ -4,6 +4,7 @@ import { LinkContainer } from 'react-router-bootstrap';
 import { Navbar, Nav, NavDropdown } from 'react-bootstrap';
 import Loginpage from './pages/Loginpage';
 import AddEvent from './pages/AddEvent';
+import Homepage from './pages/Homepage';
 
 function AppWrapper() {
   const isLoggedIn = false;
@@ -38,6 +39,7 @@ function AppWrapper() {
       </header>
       <Routes>
         <Route path="/login" element={<Loginpage />} />
+        <Route path="/" element={<Homepage />} />
         <Route path="/add" element={<AddEvent />} />
       </Routes>
     </>
