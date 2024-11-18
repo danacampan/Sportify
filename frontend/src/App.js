@@ -1,5 +1,6 @@
-
 import React from "react";
+import EventPage from "./pages/EventPage"; 
+import "./index.css"; 
 import './App.css';
 import { BrowserRouter, Link, Route, Routes } from 'react-router-dom';
 import { LinkContainer } from 'react-router-bootstrap';
@@ -10,6 +11,7 @@ import Homepage from './pages/Homepage';
 
 function AppWrapper() {
   const isLoggedIn = false;
+
 
   return (
 
@@ -44,6 +46,7 @@ function AppWrapper() {
         <Route path="/login" element={<Loginpage />} />
         <Route path="/" element={<Homepage />} />
         <Route path="/add" element={<AddEvent />} />
+        <Route path="/event element={<Eventpage />}/>
       </Routes>
     </>
   );
