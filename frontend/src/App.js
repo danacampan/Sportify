@@ -3,21 +3,22 @@ import { BrowserRouter, Link, Route, Routes } from 'react-router-dom';
 import { LinkContainer } from 'react-router-bootstrap';
 import { Navbar, Nav, NavDropdown } from 'react-bootstrap';
 import Loginpage from './pages/Loginpage';
+import AddEvent from './pages/AddEvent';
 
-function App() {
+function AppWrapper() {
   const isLoggedIn = false;
 
   return (
-    <BrowserRouter>
+    <>
       <header>
         <Navbar className="navbar days-one-regular d-flex" variant="dark">
-          <LinkContainer to="/">
-            <Navbar.Brand className="days-one-regular">Sportify</Navbar.Brand>
-          </LinkContainer>
+          <Link to="/" className="navbar-brand days-one-regular">
+            Sportify
+          </Link>
           <Nav className="me-auto w-100 justify-content-end">
             {isLoggedIn ? (
               <>
-                <Link to="/event" className="nav-link">
+                <Link to="/add" className="nav-link">
                   Adauga eveniment
                 </Link>
 
@@ -28,7 +29,7 @@ function App() {
                 </NavDropdown>
               </>
             ) : (
-              <Link to="/auth" className="nav-link">
+              <Link to="/login" className="nav-link">
                 Autentificare
               </Link>
             )}
@@ -37,7 +38,16 @@ function App() {
       </header>
       <Routes>
         <Route path="/login" element={<Loginpage />} />
+        <Route path="/add" element={<AddEvent />} />
       </Routes>
+    </>
+  );
+}
+
+function App() {
+  return (
+    <BrowserRouter>
+      <AppWrapper />
     </BrowserRouter>
   );
 }

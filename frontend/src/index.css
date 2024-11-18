@@ -5,6 +5,10 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  background-image: url('BackgroundSportify.png');
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
 }
 
 .days-one-regular {
@@ -13,9 +17,88 @@ body {
   font-style: normal;
 }
 
+.form-container {
+  display: flex;
+  flex-direction: column;
+  border-radius: 15px;
+  align-items: center;
+  max-width: 800px;
+  min-width: max-content;
+  margin-top: 3rem;
+  margin-bottom: 3rem;
+  color: rgb(241, 241, 241);
+}
+
 .navbar {
   background-color: #f3302d;
   color: #0a212e;
+}
+
+.navbar-brand {
+  margin-left: 2.5rem;
+  color: #0a212e;
+}
+
+.textForm {
+  border-color: #f3302d;
+  background-color: #0a212e;
+  color: rgb(241, 241, 241);
+}
+
+.dropdownForm {
+  background-color: #071b25;
+  color: rgb(241, 241, 241);
+}
+
+.button {
+  background-color: #f3302d;
+  color: rgb(241, 241, 241);
+  border-radius: 10px;
+  border-color: #f3302d;
+}
+
+input:focus,
+textarea:focus,
+select:focus {
+  border-color: #ff4500;
+  box-shadow: 0 0 8px rgba(255, 68, 0, 0.726);
+  outline: none;
+}
+
+.textForm:focus,
+.dropdownForm:focus {
+  border-color: #f3302d;
+  box-shadow: 0 0 8px rgba(255, 68, 0, 0.726);
+  background-color: #071b25;
+  color: rgb(241, 241, 241);
+}
+
+button:focus {
+  outline: none;
+  box-shadow: 0 0 8px rgba(255, 68, 0, 0.747);
+}
+
+button:hover {
+  background-color: #f3302d;
+}
+
+input[type='file']:focus {
+  border-color: #d6221f;
+  box-shadow: none;
+}
+
+.participants {
+  border-radius: 15px;
+  width: max-content;
+  padding: 5px;
+  font-size: 10x;
+}
+
+.spinner {
+  border-color: #f3302d;
+  background-color: #0a212e;
+  color: rgb(241, 241, 241);
+  width: 4rem;
 }
 
 code {
