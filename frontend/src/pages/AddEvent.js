@@ -5,9 +5,11 @@ export default function AddEvent() {
   const [name, setName] = useState('');
   const [location, setLocation] = useState('');
   const [photo, setPhoto] = useState(null);
+  const [duration, setDuration] = useState(null);
   const [date, setDate] = useState(null);
   const [participants, setParticipants] = useState([]);
   const [gameType, setGameType] = useState('solo');
+  const [gameMode, setGameMode] = useState('antrenament');
   const [newParticipant, setNewParticipant] = useState('');
   const [teams, setTeams] = useState([]);
   const [newTeam, setNewTeam] = useState('');
@@ -16,6 +18,10 @@ export default function AddEvent() {
     const file = e.target.files[0];
     console.log('Selected file:', file);
     setPhoto(file);
+  };
+
+  const handleChange = (e) => {
+    setDuration(Number(e.target.value));
   };
 
   const addParticipant = () => {
@@ -86,19 +92,53 @@ export default function AddEvent() {
               onChange={(e) => setDate(e.target.value)}
             />
           </Form.Group>
+          <Form.Group className="mb-3 ">
+            <Form.Label>Durata</Form.Label>
+            <Row>
+              <Col>
+                <Form.Control
+                  variant="dark"
+                  type="number"
+                  value={duration}
+                  onChange={handleChange}
+                  className="spinner dropdownForm"
+                  min="30"
+                  max="300"
+                  step="5"
+                />
+              </Col>
+              <Col>
+                <p style={{ marginLeft: '-140px', marginTop: '5px' }}>minute</p>
+              </Col>
+            </Row>
+          </Form.Group>
 
           <Row>
             <Col>
               <Form.Group className="mb-3">
                 <Form.Label>Tipul meciului</Form.Label>
-                <Form.Select
-                  aria-label="Dropdown clasic"
-                  className="dropdownForm"
-                  onChange={(e) => setGameType(e.target.value)}
-                >
-                  <option value="solo">Solo</option>
-                  <option value="echipa">Echipa</option>
-                </Form.Select>
+                <Row>
+                  <Col>
+                    <Form.Select
+                      aria-label="Dropdown clasic"
+                      className="dropdownForm"
+                      onChange={(e) => setGameType(e.target.value)}
+                    >
+                      <option value="solo">Solo</option>
+                      <option value="echipa">Echipa</option>
+                    </Form.Select>
+                  </Col>
+                  <Col>
+                    <Form.Select
+                      aria-label="Dropdown clasic"
+                      className="dropdownForm"
+                      onChange={(e) => setGameMode(e.target.value)}
+                    >
+                      <option value="antrenament">Antrenament</option>
+                      <option value="competitiv">Competitiv</option>
+                    </Form.Select>
+                  </Col>
+                </Row>
               </Form.Group>
             </Col>
           </Row>
@@ -117,7 +157,11 @@ export default function AddEvent() {
                     />
                   </Col>
                   <Col>
-                    <Button onClick={addParticipant} className="button">
+                    <Button
+                      onClick={addParticipant}
+                      className="button"
+                      variant="dark"
+                    >
                       Adauga
                     </Button>
                   </Col>
@@ -157,7 +201,7 @@ export default function AddEvent() {
                     />
                   </Col>
                   <Col>
-                    <Button onClick={addTeam} className="button">
+                    <Button onClick={addTeam} className="button" variant="dark">
                       Adauga
                     </Button>
                   </Col>
@@ -170,8 +214,9 @@ export default function AddEvent() {
                     className="d-flex justify-content-between participants align-items-center"
                   >
                     {team}
+
                     <Button
-                      variant="danger"
+                      className="delete-btn"
                       size="sm"
                       onClick={() => deleteTeam(index)}
                     >
@@ -186,6 +231,7 @@ export default function AddEvent() {
           <Button
             type="submit"
             className="button"
+            variant="dark"
             style={{
               display: 'block',
               justifyContent: 'center',
