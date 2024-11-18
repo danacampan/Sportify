@@ -1,19 +1,120 @@
+/* Stiluri globale */
 body {
+  font-family: Arial, sans-serif;
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  padding: 0;
+  background-color: #0c142c; /* Fundal închis */
+  color: white;
 }
 
-.days-one-regular {
-  font-family: 'Days One', sans-serif;
-  font-weight: 400;
-  font-style: normal;
+/* Container general pentru pagina evenimentului */
+.eventPage {
+  max-width: 900px; /* Lățimea containerului pentru a acomoda imaginea */
+  margin: 150px auto; /* Mai jos pe pagină */
+  background-color: #102040; /* Fundal albastru */
+  padding: 40px; /* Padding mai mare pentru un aspect aerisit */
+  border-radius: 12px; /* Colțuri rotunjite */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+  display: flex; /* Corectare flexbox pentru alinierea imaginii și a textului */
+  flex-direction: row; /* Aliniere pe orizontală */
+  justify-content: flex-start; /* Imagina la stânga și textul la dreapta */
+  gap: 30px; /* Spațiu între imagine și text */
+  position: relative; /* Necesitar pentru poziționarea butonului */
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+/* Imagine mare pe partea stângă */
+.eventImageLarge {
+  width: 55%; /* Imaginea va ocupa 55% din lățimea containerului */
+  max-height: 1000px; /* Maximizăm înălțimea imaginii pentru a o face mai mare */
+  object-fit: cover; /* Asigurăm că imaginea se va potrivi bine */
+  border-radius: 8px; /* Colțuri rotunjite pentru imagine */
+}
+
+/* Secțiunea de detalii din dreapta */
+.eventDetailsContainer {
+  width: 40%; /* Lățimea secțiunii de text ajustată */
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between; /* Împărțim spațiul pentru mai multă ordine */
+  gap: 20px; /* Spațiu mai mic între secțiuni */
+}
+
+/* Detalii despre eveniment */
+.eventHeader {
+  text-align: right;
+}
+
+.eventTitle {
+  font-size: 26px; /* Font mai mic pentru titlu */
+  font-weight: bold;
+  color: #f1faee; /* Culoare deschisă pentru titlu */
+}
+
+.eventTime,
+.eventLocation {
+  font-size: 14px; /* Mărim fontul pentru aceste informații */
+  color: #ccc; /* Gri deschis */
+  margin: 5px 0;
+}
+
+.eventDetails {
+  font-size: 16px; /* Font mai mic pentru detalii */
+  font-weight: normal;
+  color: #e63946; /* Text roșu pentru detalii */
+  background-color: #2a2a45; /* Fundal închis pentru detalii */
+  padding: 8px 12px;
+  border-radius: 5px;
+  margin: 8px 0;
+  line-height: 1.6; /* Între liniile de text pentru mai mult spațiu */
+}
+
+/* Sondaj */
+.pollSection {
+  margin-top: 20px;
+  text-align: left;
+}
+
+.pollQuestion {
+  font-size: 16px; /* Font mai mic pentru întrebarea sondajului */
+  margin-bottom: 10px;
+  color: #f1faee; /* Culoare deschisă pentru întrebarea sondajului */
+}
+
+.pollButtons {
+  display: flex;
+  gap: 15px; /* Spațiu mai mic între butoane */
+}
+
+.pollButton {
+  background-color: #e63946; /* Fundal roșu */
+  color: white;
+  border: none;
+  padding: 10px 20px; /* Dimensiuni mai mici pentru butoane */
+  cursor: pointer;
+  border-radius: 5px;
+  font-size: 14px; /* Font mai mic pentru butoane */
+  font-weight: bold;
+}
+
+.pollButton:hover {
+  background-color: #d62828; /* Roșu mai închis */
+}
+
+/* Buton pentru bilete */
+.buyButton {
+  background-color: #457b9d; /* Albastru */
+  color: white;
+  border: none;
+  padding: 8px 18px; /* Dimensiuni mai mici pentru butonul de bilete */
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 14px; /* Font mai mic pentru buton */
+  font-weight: bold;
+  position: absolute; /* Poziționare absolută pentru a-l pune în colțul din dreapta jos */
+  bottom: 20px; /* Distanță de la partea de jos */
+  right: 20px; /* Distanță de la partea dreaptă */
+}
+
+.buyButton:hover {
+  background-color: #1d3557; /* Albastru mai închis */
 }
