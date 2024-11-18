@@ -1,71 +1,61 @@
-/* Stiluri globale */
-body {
-  font-family: Arial, sans-serif;
-  margin: 0;
-  padding: 0;
-  background-color: #0c142c; /* Fundal închis */
-  color: white;
-}
-
-/* Container general pentru pagina evenimentului */
 .eventPage {
-  max-width: 900px; /* Lățimea containerului pentru a acomoda imaginea */
-  margin: 150px auto; /* Mai jos pe pagină */
-  background-color: #102040; /* Fundal albastru */
-  padding: 40px; /* Padding mai mare pentru un aspect aerisit */
-  border-radius: 12px; /* Colțuri rotunjite */
+  max-width: 900px; 
+  margin: 150px auto; 
+  background-color: #102040; 
+  padding: 40px; 
+  border-radius: 12px; 
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
-  display: flex; /* Corectare flexbox pentru alinierea imaginii și a textului */
-  flex-direction: row; /* Aliniere pe orizontală */
-  justify-content: flex-start; /* Imagina la stânga și textul la dreapta */
-  gap: 30px; /* Spațiu între imagine și text */
-  position: relative; /* Necesitar pentru poziționarea butonului */
+  display: flex;
+  flex-direction: row; 
+  justify-content: flex-start; 
+  gap: 30px; 
+  position: relative; 
 }
 
-/* Imagine mare pe partea stângă */
+
 .eventImageLarge {
-  width: 55%; /* Imaginea va ocupa 55% din lățimea containerului */
-  max-height: 1000px; /* Maximizăm înălțimea imaginii pentru a o face mai mare */
-  object-fit: cover; /* Asigurăm că imaginea se va potrivi bine */
-  border-radius: 8px; /* Colțuri rotunjite pentru imagine */
+  width: 55%; 
+  max-height: 1000px; 
+  object-fit: cover; 
+  border-radius: 8px; 
 }
 
-/* Secțiunea de detalii din dreapta */
+
 .eventDetailsContainer {
-  width: 40%; /* Lățimea secțiunii de text ajustată */
+  width: 40%; 
   display: flex;
   flex-direction: column;
-  justify-content: space-between; /* Împărțim spațiul pentru mai multă ordine */
-  gap: 20px; /* Spațiu mai mic între secțiuni */
+  justify-content: space-between; 
+  gap: 20px;
 }
 
-/* Detalii despre eveniment */
+
 .eventHeader {
   text-align: right;
 }
 
 .eventTitle {
-  font-size: 26px; /* Font mai mic pentru titlu */
+  font-size: 26px; 
   font-weight: bold;
-  color: #f1faee; /* Culoare deschisă pentru titlu */
+  color: #f1faee; 
 }
 
 .eventTime,
 .eventLocation {
-  font-size: 14px; /* Mărim fontul pentru aceste informații */
-  color: #ccc; /* Gri deschis */
+  font-size: 14px; 
+  color: #ccc; 
   margin: 5px 0;
 }
 
 .eventDetails {
-  font-size: 16px; /* Font mai mic pentru detalii */
+  font-size: 16px; 
   font-weight: normal;
-  color: #e63946; /* Text roșu pentru detalii */
-  background-color: #2a2a45; /* Fundal închis pentru detalii */
+  color: #e63946; 
+  background-color: #2a2a45; 
   padding: 8px 12px;
   border-radius: 5px;
   margin: 8px 0;
-  line-height: 1.6; /* Între liniile de text pentru mai mult spațiu */
+  line-height: 1.6; 
 }
 
 /* Sondaj */
@@ -75,46 +65,288 @@ body {
 }
 
 .pollQuestion {
-  font-size: 16px; /* Font mai mic pentru întrebarea sondajului */
+  font-size: 16px; 
   margin-bottom: 10px;
-  color: #f1faee; /* Culoare deschisă pentru întrebarea sondajului */
+  color: #f1faee; 
 }
 
 .pollButtons {
   display: flex;
-  gap: 15px; /* Spațiu mai mic între butoane */
+  gap: 15px; 
 }
 
 .pollButton {
-  background-color: #e63946; /* Fundal roșu */
+  background-color: #e63946; 
   color: white;
   border: none;
-  padding: 10px 20px; /* Dimensiuni mai mici pentru butoane */
+  padding: 10px 20px; 
   cursor: pointer;
   border-radius: 5px;
-  font-size: 14px; /* Font mai mic pentru butoane */
+  font-size: 14px;
   font-weight: bold;
 }
 
 .pollButton:hover {
-  background-color: #d62828; /* Roșu mai închis */
+  background-color: #d62828; 
 }
 
-/* Buton pentru bilete */
+
 .buyButton {
-  background-color: #457b9d; /* Albastru */
+  background-color: #457b9d; 
   color: white;
   border: none;
-  padding: 8px 18px; /* Dimensiuni mai mici pentru butonul de bilete */
+  padding: 8px 18px; 
   border-radius: 5px;
   cursor: pointer;
-  font-size: 14px; /* Font mai mic pentru buton */
+  font-size: 14px;
   font-weight: bold;
-  position: absolute; /* Poziționare absolută pentru a-l pune în colțul din dreapta jos */
-  bottom: 20px; /* Distanță de la partea de jos */
-  right: 20px; /* Distanță de la partea dreaptă */
+  position: absolute; 
+  bottom: 20px; 
+  right: 20px; 
 }
 
 .buyButton:hover {
-  background-color: #1d3557; /* Albastru mai închis */
+  background-color: #1d3557; 
+=======
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Arial', sans-serif;
+  color: #ffffff;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background-image: url('BackgroundSportify.png');
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+   -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  flex-grow: 1; 
+  padding-top: 80px;
+}
+
+
+.content {
+  width: 95%;
+  max-width: 900px;
+  padding: 20px;
+}
+
+.title {
+  font-size: 28px;
+  margin-bottom: 20px;
+  text-align: left;
+}
+
+.eventCard {
+  display: flex;
+  align-items: center;
+  background-color: #1c2541;
+  border-radius: 8px;
+  margin-bottom: 20px;
+  padding: 10px;
+  gap: 15px;
+  width: 100%;
+  cursor: pointer;
+}
+
+.eventCard:hover {
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.eventImage {
+  width: 170px;
+  height: 120px;
+  border-radius: 8px;
+}
+
+.eventDetails {
+  display: flex;
+  flex-direction: column;
+}
+
+.eventTitle {
+  font-size: 20px;
+}
+
+
+.eventTime {
+  font-size: 14px;
+  color: #9baec8;
+}
+
+.eventDetailsButton {
+  font-size: 16px;
+  color: #e63946;
+  font-weight: bold;
+  margin: 5px 0;
+}
+
+.eventLocation {
+  font-size: 14px;
+  color: #9baec8;
+}
+
+/* Paginarea */
+.pagination {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.pageButton {
+  background-color: #1c2541;
+  color: #ffffff;
+  border: none;
+  border-radius: 5px;
+  padding: 5px 10px;
+  margin: 0 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.pageButton:hover {
+  background-color: #3a506b;
+}
+
+.form-container {
+  display: flex;
+  flex-direction: column;
+  border-radius: 15px;
+  align-items: center;
+  max-width: 800px;
+  min-width: max-content;
+  margin-top: 3rem;
+  margin-bottom: 3rem;
+  color: rgb(241, 241, 241);
+}
+  
+.days-one-regular {
+  font-family: 'Days One', serif;
+  font-weight: 400;
+  font-style: normal;
+}
+
+.navbar {
+  background-color: #f3302d;
+  color: #0a212e;
+}
+
+.navbar-brand {
+  margin-left: 2.5rem;
+  color: #0a212e;
+}
+
+.textForm {
+  border-color: #f3302d;
+  background-color: #0a212e;
+  color: rgb(241, 241, 241);
+}
+
+.dropdownForm {
+  background-color: #071b25;
+  color: rgb(241, 241, 241);
+  border-color: #f3302d;
+}
+
+.button {
+  background-color: #f3302d;
+  color: rgb(241, 241, 241);
+  border-radius: 10px;
+  border-color: #f3302d;
+}
+
+input:focus,
+textarea:focus,
+select:focus {
+  border-color: #ff4500;
+  box-shadow: 0 0 8px rgba(255, 68, 0, 0.726);
+  outline: none;
+}
+
+.textForm:focus,
+.dropdownForm:focus {
+  border-color: #f3302d;
+  box-shadow: 0 0 8px rgba(255, 68, 0, 0.726);
+  background-color: #071b25;
+  color: rgb(241, 241, 241);
+}
+
+button:focus {
+  outline: none;
+  box-shadow: 0 0 8px rgba(255, 68, 0, 0.747);
+}
+
+button:hover {
+  background-color: #f3302d;
+}
+
+.delete-btn {
+  background-color: white;
+  border-color: white;
+  color: black;
+  border-radius: 15px;
+}
+
+.delete-btn:hover {
+  background-color: rgb(221, 221, 221);
+  border-color: white;
+  color: black;
+  border-radius: 15px;
+}
+
+input[type='file']:focus {
+  border-color: #d6221f;
+  box-shadow: none;
+}
+
+.participants {
+  border-radius: 15px;
+  width: max-content;
+  padding: 5px;
+  font-size: 10x;
+}
+
+.spinner {
+  border-color: #f3302d;
+  background-color: #0a212e;
+  color: rgb(241, 241, 241);
+  width: 5rem;
+}
+
+.btn-light,
+.btn-dark,
+.btn-outline-light,
+.btn-outline-dark {
+  background-color: #f3302d;
+  border-color: #f3302d;
+}
+.btn-light:hover,
+.btn-dark:hover,
+.btn-outline-light:hover,
+.btn-outline-dark:hover {
+  background-color: #da2623;
+  border-color: #da2623;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+
+.activePageButton {
+  background-color: #e63946; /* Culoare activă */
+  font-weight: bold;
 }
