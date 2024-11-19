@@ -55,7 +55,7 @@ function Homepage() {
     },
   ];
 
-  const eventsPerPage = 2;
+  const eventsPerPage = 3;
   const [currentPage, setCurrentPage] = useState(1);
 
   const indexOfLastEvent = currentPage * eventsPerPage;
@@ -70,7 +70,7 @@ function Homepage() {
   return (
     <div className="container days-one-regular">
       <div className="content">
-        <h2 className="title">Evenimente</h2>
+        <h1 className="title">Evenimente</h1>
         {currentEvents.map((event) => (
           <div
             key={event.id}
