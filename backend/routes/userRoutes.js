@@ -13,6 +13,36 @@ userRouter.get('/', async (req, res) => {
   res.send(users);
 });
 
+userRouter.get('/:id', authMiddleware, async (req, res) => {
+  try {
+    const userId = req.params.id; // Get the user ID from the URL
+    const user = await User.findById(userId); // Find the user by ID
+
+    if (!user) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+
+    // Return the user's data (you can modify this based on what fields you need)
+    return res.status(200).json({
+      userId: user._id,
+      username: user.nume,
+      email: user.email,
+      dateOfBirth: user.dataNasterii,
+      role: user.rol,
+      avatar: user.avatar,
+      bio: user.bibliografie,
+      location: user.locatie,
+      sports: user.sporturiPrincipale,
+      stats: user.statistici,
+      performances: user.performanteNotabile,
+      // Add any other fields you want to return from the user object
+    });
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ message: 'Server Error' });
+  }
+});
+
 userRouter.post('/register', async (req, res) => {
   try {
     const { username, password, email, dateOfBirth, role } = req.body;

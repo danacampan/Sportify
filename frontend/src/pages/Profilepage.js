@@ -53,30 +53,43 @@ export default function Profilepage() {
 
   return (
     <Row className="profile-container">
-      <Col className="days-one-regular" style={{ backgroundColor: '#071c22' }}>
-        <img src={account.avatar} alt={account.name} className="avatar" />
-        <p style={{ marginLeft: '4rem', marginTop: '10px', fontSize: '20px' }}>
+      {/* Profile Section */}
+      <Col
+        xs={12}
+        lg={4}
+        className="days-one-regular"
+        style={{ backgroundColor: '#071c22', padding: '2rem' }}
+      >
+        <img
+          src={account.avatar}
+          alt={account.name}
+          className="avatar"
+          style={{ width: '150px', borderRadius: '50%', marginLeft: '3rem' }}
+        />
+        <p style={{ marginTop: '10px', fontSize: '20px', marginLeft: '2rem' }}>
           {account.name} ({account.age})
         </p>
-        <p style={{ marginLeft: '7rem' }}>{account.bibiliography}</p>
-        <p style={{ marginLeft: '5rem', color: '#616161' }}>
+        <p style={{ marginLeft: '5rem' }}>{account.bibiliography}</p>
+        <p style={{ color: '#616161', marginLeft: '3rem' }}>
           {account.location}
         </p>
-        <Button style={{ marginLeft: '6rem' }} className="button">
+        <Button
+          style={{ marginLeft: '5rem' }}
+          className="button"
+          variant="light"
+        >
           Editeaza
         </Button>
         <hr />
-        <p style={{ marginLeft: '1rem', fontSize: '18px' }}>
-          Sporturi principale
-        </p>
+        <p style={{ fontSize: '18px' }}>Sporturi principale</p>
         <div className="sports">
           {account.sports.map((sport) => (
-            <Button className="sport">{sport}</Button>
+            <Button className="sport" key={sport}>
+              {sport}
+            </Button>
           ))}
         </div>
-        <p style={{ marginLeft: '1rem', fontSize: '18px', marginTop: '1rem' }}>
-          Statistici
-        </p>
+        <p style={{ fontSize: '18px', marginTop: '1rem' }}>Statistici</p>
         <div>
           <p>
             <span className="statistic">{account.participations}</span>{' '}
@@ -87,27 +100,27 @@ export default function Profilepage() {
           </p>
         </div>
 
-        <p style={{ marginLeft: '1rem', fontSize: '18px' }}>
-          Performante notabile
-        </p>
-        {account.performances.map((performance) => (
-          <div className="performance">
+        <p style={{ fontSize: '18px' }}>Performante notabile</p>
+        {account.performances.map((performance, index) => (
+          <div key={index} className="performance">
             <img src="Vector.png" width={30} height={30} alt="medal" />
             <p>{performance}</p>
           </div>
         ))}
       </Col>
-      <Col>
+
+      {/* Events Section */}
+      <Col xs={12} lg={8}>
         <h2
           className="title days-one-regular"
-          style={{ marginLeft: '4rem', marginTop: '4rem' }}
+          style={{ marginTop: '4rem', marginLeft: '1rem' }}
         >
           Evenimentele mele
         </h2>
 
         <Form.Select
           className="filter-dropdown days-one-regular textForm"
-          style={{ width: '20rem', marginLeft: '4rem', marginBottom: '2rem' }}
+          style={{ width: '20rem', marginBottom: '2rem', marginLeft: '1rem' }}
           onChange={(e) => setSelectedRole(e.target.value)}
           value={selectedRole}
         >
@@ -120,16 +133,25 @@ export default function Profilepage() {
           <div
             key={event.id}
             className="eventCard days-one-regular"
-            style={{ width: '50rem', marginLeft: '3rem' }}
+            style={{
+              width: '100%',
+              marginBottom: '1rem',
+              marginLeft: '1rem',
+              display: 'flex',
+              flexDirection: 'row',
+              alignItems: 'center',
+
+              padding: '1rem',
+            }}
           >
             <img
               src={event.image}
               alt={event.title}
               width={200}
               height={150}
-              style={{ borderRadius: '15px' }}
+              style={{ borderRadius: '15px', marginRight: '1rem' }}
             />
-            <div className="eventDetailsContainer">
+            <div className="eventDetailsContainer" style={{ flex: 1 }}>
               <p className="eventTime" style={{ fontSize: '16px' }}>
                 {event.time}
               </p>
