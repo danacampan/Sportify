@@ -1,8 +1,15 @@
 import React, { useState } from 'react';
-import { Form, Button } from 'react-bootstrap';
+import { Form } from 'react-bootstrap';
 
 function RegisterPage() {
+  const [nume, setNume] = useState('');
+  const [email, setEmail] = useState('');
+  const [parola, setParola] = useState('');
+  const [confirmaParola, setConfirmaParola] = useState('');
+  const [dataNasterii, setDataNasterii] = useState('');
   const [isOrganizer, setIsOrganizer] = useState(false);
+  const [errorMessage, setErrorMessage] = useState('');
+  const [successMessage, setSuccessMessage] = useState('');
 
   const styles = {
     container: {
@@ -114,23 +121,68 @@ function RegisterPage() {
     },
   };
 
+  const handleRegister = async (e) => {
+    e.preventDefault();
+
+    if (parola !== confirmaParola) {
+      setErrorMessage('Parolele nu se potrivesc!');
+      return;
+    }
+
+    const userData = {
+      username: nume,
+      email,
+      password: parola,
+      dateOfBirth: dataNasterii,
+      role: isOrganizer ? 'organizer' : 'user',
+    };
+
+    try {
+      const response = await fetch('http://localhost:5000/api/users/register', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(userData),
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        setSuccessMessage('Cont creat cu succes! Te poți autentifica.');
+        setErrorMessage('');
+      } else {
+        setErrorMessage(data.message || 'A apărut o eroare.');
+      }
+    } catch (error) {
+      setErrorMessage('Eroare la conexiune cu serverul.');
+    }
+  };
+
   return (
     <div style={styles.container}>
       <div style={styles.imageSection}></div>
       <div style={styles.formSection}>
         <h1 style={styles.title}>Bine ai venit!</h1>
-        <form style={styles.form}>
+        <form style={styles.form} onSubmit={handleRegister}>
           <label style={styles.label}>
             Nume și prenume
             <input
               type="text"
               placeholder="Introdu un nume..."
               style={styles.input}
+              value={nume}
+              onChange={(e) => setNume(e.target.value)}
             />
           </label>
           <label style={styles.label}>
             Data nașterii
-            <input type="date" style={styles.dateInput} />
+            <input
+              type="date"
+              style={styles.dateInput}
+              value={dataNasterii}
+              onChange={(e) => setDataNasterii(e.target.value)}
+            />
           </label>
           <label style={styles.label}>
             Email
@@ -138,6 +190,8 @@ function RegisterPage() {
               type="email"
               placeholder="Introdu un email..."
               style={styles.input}
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
             />
           </label>
           <label style={styles.label}>
@@ -146,18 +200,21 @@ function RegisterPage() {
               type="password"
               placeholder="Introdu o parolă..."
               style={styles.input}
+              value={parola}
+              onChange={(e) => setParola(e.target.value)}
             />
           </label>
           <label style={styles.label}>
             Confirmă parola
             <input
               type="password"
-              placeholder="Introdu o parolă..."
+              placeholder="Confirmă parola..."
               style={styles.input}
+              value={confirmaParola}
+              onChange={(e) => setConfirmaParola(e.target.value)}
             />
           </label>
 
-          {}
           <div style={styles.checkboxContainer}>
             <Form.Check
               type="checkbox"
@@ -168,6 +225,9 @@ function RegisterPage() {
               style={styles.customCheckbox}
             />
           </div>
+
+          {errorMessage && <p style={{ color: 'red' }}>{errorMessage}</p>}
+          {successMessage && <p style={{ color: 'green' }}>{successMessage}</p>}
 
           <button type="submit" style={styles.registerButton}>
             Înregistrare
