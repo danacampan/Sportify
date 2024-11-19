@@ -4,9 +4,11 @@ import './App.css';
 import { BrowserRouter, Link, Route, Routes } from 'react-router-dom';
 import { Navbar, Nav, NavDropdown } from 'react-bootstrap';
 import Loginpage from './pages/Loginpage';
+import Registerpage from './pages/Registerpage';
 import EventPage from './pages/EventPage';
 import AddEvent from './pages/AddEvent';
 import Homepage from './pages/Homepage';
+import Profilepage from './pages/Profilepage';
 
 function AppWrapper() {
   const isLoggedIn = true;
@@ -26,6 +28,9 @@ function AppWrapper() {
                 </Link>
 
                 <NavDropdown title="Setari" className="mx-5">
+                  <Link className="dropdown-item" to="/profile">
+                    Profil
+                  </Link>
                   <Link className="dropdown-item" to="#signout">
                     Deconectare
                   </Link>
@@ -41,9 +46,11 @@ function AppWrapper() {
       </header>
       <Routes>
         <Route path="/login" element={<Loginpage />} />
+        <Route path="/register" element={<Registerpage />} />
         <Route path="/" element={<Homepage />} />
         <Route path="/add" element={<AddEvent />} />
         <Route path="/event" element={<EventPage />} />
+        <Route path="/profile" element={<Profilepage />} />
       </Routes>
     </>
   );
