@@ -167,8 +167,9 @@ body {
 }
 
 .eventImage {
-  width: 450px;
-  height: 300px;
+  width: 100%;
+  max-width: 450px; /* Lățimea maximă rămâne de 450px */
+  height: auto; /* Înălțimea se ajustează proporțional */
   border-radius: 15px;
   transition: transform 0.3s ease-in-out;
 }
@@ -372,4 +373,27 @@ code {
 .activePageButton {
   background-color: #e63946;
   font-weight: bold;
+}
+@media (max-width: 1200px) {
+  .eventImage {
+    max-width: 400px;
+  }
+}
+
+@media (max-width: 992px) {
+  .eventImage {
+    max-width: 350px;
+  }
+}
+
+@media (max-width: 768px) {
+  .eventImage {
+    max-width: 300px;
+  }
+}
+
+@media (max-width: 576px) {
+  .eventImage {
+    max-width: 250px;
+  }
 }
