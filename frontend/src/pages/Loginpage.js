@@ -1,6 +1,11 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 function LoginPage() {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [error, setError] = useState('');
+  const [loading, setLoading] = useState(false);
+
   const styles = {
     container: {
       display: 'flex',
@@ -79,18 +84,58 @@ function LoginPage() {
     },
   };
 
+  const handleLogin = async (e) => {
+    e.preventDefault();
+
+    setLoading(true);
+    setError('');
+
+    try {
+      const response = await fetch('http://localhost:5000/api/users/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          email: email,
+          password: password,
+        }),
+      });
+
+      if (!response.ok) {
+        const data = await response.json();
+        setError(data.error || 'Login failed');
+      } else {
+        const data = await response.json();
+        const { token, user } = data;
+
+        localStorage.setItem('token', token);
+        localStorage.setItem('user', JSON.stringify(user));
+
+        window.location.href = '/';
+      }
+    } catch (err) {
+      setError('An error occurred during login');
+      console.error(err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <div style={styles.container}>
       <div style={styles.imageSection}></div>
       <div style={styles.formSection}>
         <h1 style={styles.title}>Bine ai revenit!</h1>
-        <form style={styles.form}>
+        <form style={styles.form} onSubmit={handleLogin}>
           <label style={styles.label}>
             Email
             <input
               type="email"
               placeholder="Introdu un email..."
               style={styles.input}
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
             />
           </label>
           <label style={styles.label}>
@@ -99,11 +144,14 @@ function LoginPage() {
               type="password"
               placeholder="Introdu o parolă..."
               style={styles.input}
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
             />
           </label>
-          <button type="submit" style={styles.button}>
-            Logare
+          <button type="submit" style={styles.button} disabled={loading}>
+            {loading ? 'Se conectează...' : 'Logare'}
           </button>
+          {error && <p style={{ color: 'red' }}>{error}</p>}{' '}
           <p style={styles.centeredText}>
             Nu ai un cont?{' '}
             <a href="/register" style={styles.link}>
