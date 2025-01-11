@@ -86,7 +86,7 @@ function AppWrapper() {
         <Route path="/register" element={<Registerpage />} />
         <Route path="/" element={<Homepage />} />
         <Route path="/add" element={<AddEvent />} />
-        <Route path="/event" element={<EventPage />} />
+        <Route path="/event/:id" element={<EventPage />} />
         <Route path="/profile" element={<Profilepage />} />
       </Routes>
     </>
