@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { Form, Row, Col, Button, ListGroup } from 'react-bootstrap';
+import axios from 'axios';
 
 export default function AddEvent() {
   const [name, setName] = useState('');
@@ -16,7 +17,6 @@ export default function AddEvent() {
 
   const handleFileChange = (e) => {
     const file = e.target.files[0];
-    console.log('Selected file:', file);
     setPhoto(file);
   };
 
@@ -46,6 +46,69 @@ export default function AddEvent() {
     setTeams(teams.filter((_, i) => i !== index));
   };
 
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    console.log({
+      name,
+      location,
+      photo,
+      duration,
+      date,
+      participants,
+      gameType,
+      gameMode,
+      teams,
+    });
+
+    if (!name || !location || !duration || !date || !gameType || !gameMode) {
+      alert('Please fill all required fields.');
+      return;
+    }
+
+    const formData = new FormData();
+    formData.append('name', name);
+    formData.append('location', location);
+    formData.append('photo', photo);
+    formData.append('duration', duration);
+    formData.append('date', date);
+    formData.append('participants', JSON.stringify(participants));
+    formData.append('gameType', gameType);
+    formData.append('gameMode', gameMode);
+    formData.append('teams', JSON.stringify(teams));
+
+    try {
+      const response = await axios.post(
+        'http://localhost:5000/api/events/event',
+        formData,
+        {
+          headers: {
+            'Content-Type': 'multipart/form-data',
+          },
+        }
+      );
+
+      console.log('Event created successfully:', response.data);
+      alert('Evenimentul a fost salvat cu succes!');
+
+      setName('');
+      setLocation('');
+      setPhoto(null);
+      setDuration(null);
+      setDate(null);
+      setParticipants([]);
+      setTeams([]);
+      setGameType('solo');
+      setGameMode('antrenament');
+    } catch (error) {
+      console.error(
+        'Error creating event:',
+        error.response?.data || error.message
+      );
+      alert('A apărut o eroare la salvarea evenimentului.');
+    }
+  };
+
   return (
     <div
       style={{
@@ -57,12 +120,13 @@ export default function AddEvent() {
       <div className="form-container days-one-regular px-4 py-4">
         <h2 className="my-30">Adauga un eveniment</h2>
         <br />
-        <Form>
+        <Form onSubmit={handleSubmit}>
           <Form.Group className="mb-3" controlId="formUsername">
             <Form.Label>Nume eveniment</Form.Label>
             <Form.Control
               type="text"
               className="textForm"
+              value={name}
               onChange={(e) => setName(e.target.value)}
             />
           </Form.Group>
@@ -80,6 +144,7 @@ export default function AddEvent() {
             <Form.Control
               type="text"
               className="textForm"
+              value={location}
               onChange={(e) => setLocation(e.target.value)}
             />
           </Form.Group>
@@ -99,7 +164,7 @@ export default function AddEvent() {
                 <Form.Control
                   variant="dark"
                   type="number"
-                  value={duration}
+                  value={duration || ''}
                   onChange={handleChange}
                   className="spinner dropdownForm"
                   min="30"
@@ -122,6 +187,7 @@ export default function AddEvent() {
                     <Form.Select
                       aria-label="Dropdown clasic"
                       className="dropdownForm"
+                      value={gameType}
                       onChange={(e) => setGameType(e.target.value)}
                     >
                       <option value="solo">Solo</option>
@@ -132,6 +198,7 @@ export default function AddEvent() {
                     <Form.Select
                       aria-label="Dropdown clasic"
                       className="dropdownForm"
+                      value={gameMode}
                       onChange={(e) => setGameMode(e.target.value)}
                     >
                       <option value="antrenament">Antrenament</option>

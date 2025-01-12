@@ -15,14 +15,14 @@ userRouter.get('/', async (req, res) => {
 
 userRouter.get('/:id', authMiddleware, async (req, res) => {
   try {
-    const userId = req.params.id; // Get the user ID from the URL
-    const user = await User.findById(userId); // Find the user by ID
+
+    const userId = req.params.id;
+    const user = await User.findById(userId);
 
     if (!user) {
       return res.status(404).json({ message: 'User not found' });
     }
 
-    // Return the user's data (you can modify this based on what fields you need)
     return res.status(200).json({
       userId: user._id,
       username: user.nume,
@@ -35,7 +35,7 @@ userRouter.get('/:id', authMiddleware, async (req, res) => {
       sports: user.sporturiPrincipale,
       stats: user.statistici,
       performances: user.performanteNotabile,
-      // Add any other fields you want to return from the user object
+
     });
   } catch (error) {
     console.error(error);

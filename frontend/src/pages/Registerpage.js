@@ -17,7 +17,7 @@ function RegisterPage() {
     },
     imageSection: {
       flex: 1,
-      height: '',
+      height: '900px',
       backgroundImage: "url('/fata.jpeg')",
       backgroundSize: 'cover',
       backgroundRepeat: 'no-repeat',

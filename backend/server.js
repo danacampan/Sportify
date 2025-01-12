@@ -3,6 +3,7 @@ import mongoose from 'mongoose';
 import express from 'express';
 import cors from 'cors';
 import userRouter from './routes/userRoutes.js';
+import eventRouter from './routes/eventRoutes.js';
 
 dotenv.config();
 
@@ -27,3 +28,4 @@ app.listen(port, () => {
   console.log(`serve at http://localhost:${port}`);
 });
 app.use('/api/users', userRouter);
+app.use('/api/events', eventRouter);

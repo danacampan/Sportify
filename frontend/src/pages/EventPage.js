@@ -1,18 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import '../index.css';
-import { useLocation } from 'react-router-dom';
+import { useParams, useLocation } from 'react-router-dom';
 import { Row, Col } from 'react-bootstrap';
+import axios from 'axios';
 
 function EventPage() {
+  const { id } = useParams();
   const location = useLocation();
-  const currentEvent = location.state?.event || {
-    image: '/meci_fotbal.jpg',
-    title: 'Meci fotbal',
-    details: 'STEAUA VS DINAMO',
-    time: '10 Noiembrie, 16:00-17:00',
-    location: 'Strada Cluj, Nr.1',
-  };
-
+  const [currentEvent, setCurrentEvent] = useState(
+    location.state?.event || null
+  );
   const [votesTeam1, setVotesTeam1] = useState(0);
   const [votesTeam2, setVotesTeam2] = useState(0);
   const [selectedOption, setSelectedOption] = useState(null);
@@ -20,7 +17,30 @@ function EventPage() {
   const [eventStatus, setEventStatus] = useState('Nu a început');
 
   useEffect(() => {
+    const fetchEvent = async () => {
+      try {
+        const response = await axios.get(
+          `http://localhost:5000/api/events/event/${id}`
+        );
+        setCurrentEvent(response.data);
+      } catch (error) {
+        console.error('Error fetching event:', error);
+      }
+    };
+
+    fetchEvent();
+  }, [id]);
+
+  useEffect(() => {
+    if (!currentEvent) return;
+
     const parseEventTime = () => {
+      if (!currentEvent?.time) {
+        setEventStatus('Invalid time data');
+        setRemainingTime(0);
+        return;
+      }
+
       const [date, timeRange] = currentEvent.time.split(', ');
       const [day, month, year] = date.split(' ').map((value, index) => {
         if (index === 0) return parseInt(value, 10);
@@ -73,7 +93,7 @@ function EventPage() {
     }, 1000);
 
     return () => clearInterval(timer);
-  }, [currentEvent.time]);
+  }, [currentEvent]);
 
   const formatTime = (timeInSeconds) => {
     const hours = Math.floor(timeInSeconds / 3600);
@@ -103,13 +123,17 @@ function EventPage() {
     }
   };
 
+  if (!currentEvent) {
+    return <p>Loading event details...</p>;
+  }
+
   return (
     <div className="eventPage days-one-regular">
       <Row>
         <Col>
           <div className="eventDetailsContainer">
             <img
-              src={currentEvent.image}
+              src={currentEvent.photo}
               alt={currentEvent.title}
               className="eventImageLarge"
             />
@@ -117,7 +141,7 @@ function EventPage() {
         </Col>
         <Col className="eventDetailsContainer eventDetails">
           <p className="eventTime">{currentEvent.time}</p>
-          <h2 className="eventTitle">{currentEvent.title}</h2>
+          <h2 className="eventTitle">{currentEvent.name}</h2>
           <p className="eventDetails">{currentEvent.details}</p>
           <p className="eventLocation">{currentEvent.location}</p>
 
