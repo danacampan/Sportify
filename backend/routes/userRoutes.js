@@ -15,6 +15,7 @@ userRouter.get('/', async (req, res) => {
 
 userRouter.get('/:id', authMiddleware, async (req, res) => {
   try {
+
     const userId = req.params.id;
     const user = await User.findById(userId);
 
@@ -34,6 +35,7 @@ userRouter.get('/:id', authMiddleware, async (req, res) => {
       sports: user.sporturiPrincipale,
       stats: user.statistici,
       performances: user.performanteNotabile,
+
     });
   } catch (error) {
     console.error(error);
