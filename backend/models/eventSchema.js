@@ -28,6 +28,7 @@ const eventSchema = new mongoose.Schema({
     type: [String],
     default: [],
   },
+  pendingParticipants: { type: [String] },
   gameType: {
     type: String,
     required: true,
@@ -41,6 +42,11 @@ const eventSchema = new mongoose.Schema({
   teams: {
     type: [String],
     default: [],
+  },
+  organiser: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User',
+    required: true,
   },
 });
 

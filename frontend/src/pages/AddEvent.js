@@ -13,6 +13,7 @@ export default function AddEvent() {
   const [gameMode, setGameMode] = useState('antrenament');
   const [newParticipant, setNewParticipant] = useState('');
   const [teams, setTeams] = useState([]);
+  const [organiser, setOrganiser] = useState('');
   const [newTeam, setNewTeam] = useState('');
 
   const handleFileChange = (e) => {
@@ -49,22 +50,18 @@ export default function AddEvent() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    console.log({
-      name,
-      location,
-      photo,
-      duration,
-      date,
-      participants,
-      gameType,
-      gameMode,
-      teams,
-    });
-
     if (!name || !location || !duration || !date || !gameType || !gameMode) {
       alert('Please fill all required fields.');
       return;
     }
+
+    const token = localStorage.getItem('token');
+    if (!token) {
+      alert('Trebuie să fii autentificat pentru a adăuga un eveniment.');
+      return;
+    }
+
+    const user = JSON.parse(localStorage.getItem('user'));
 
     const formData = new FormData();
     formData.append('name', name);
@@ -76,26 +73,31 @@ export default function AddEvent() {
     formData.append('gameType', gameType);
     formData.append('gameMode', gameMode);
     formData.append('teams', JSON.stringify(teams));
+    formData.append('organiser', user.userId);
+    console.log('User ID:', user.userId);
 
     try {
+      const token = localStorage.getItem('token');
       const response = await axios.post(
         'http://localhost:5000/api/events/event',
         formData,
         {
           headers: {
             'Content-Type': 'multipart/form-data',
+            Authorization: `Bearer ${token}`,
           },
         }
       );
 
       console.log('Event created successfully:', response.data);
-      alert('Evenimentul a fost salvat cu succes!');
 
+      alert('Evenimentul a fost salvat cu succes!');
+      // Resetează formularul
       setName('');
       setLocation('');
       setPhoto(null);
       setDuration(null);
-      setDate(null);
+      setDate('');
       setParticipants([]);
       setTeams([]);
       setGameType('solo');

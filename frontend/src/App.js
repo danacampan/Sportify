@@ -16,6 +16,8 @@ import EventPage from './pages/EventPage';
 import AddEvent from './pages/AddEvent';
 import Homepage from './pages/Homepage';
 import Profilepage from './pages/Profilepage';
+import OrganiserDashboard from './pages/OrganiserDashboard';
+import EditEvent from './pages/EditEvent';
 
 function AppWrapper() {
   const [user, setUser] = useState(null);
@@ -53,15 +55,23 @@ function AppWrapper() {
               {isLoggedIn ? (
                 <>
                   {isOrganizer && (
-                    <Link to="/add" className="nav-link mr-2">
-                      Adauga eveniment
-                    </Link>
+                    <>
+                      <Link to="/add" className="nav-link days-one-regular">
+                        Adauga eveniment
+                      </Link>
+                    </>
                   )}
-
                   <NavDropdown title="Setari" className="mx-5">
                     <Link className="dropdown-item" to="/profile">
                       Profil
                     </Link>
+                    {isOrganizer && (
+                      <>
+                        <Link to="/:organiserId" className="dropdown-item">
+                          Evenimente
+                        </Link>
+                      </>
+                    )}
                     <Link
                       className="dropdown-item"
                       to="#signout"
@@ -85,9 +95,20 @@ function AppWrapper() {
         <Route path="/login" element={<Loginpage />} />
         <Route path="/register" element={<Registerpage />} />
         <Route path="/" element={<Homepage />} />
-        <Route path="/add" element={<AddEvent />} />
+        <Route
+          path="/add"
+          element={isOrganizer ? <AddEvent /> : <Homepage />}
+        />
         <Route path="/event/:id" element={<EventPage />} />
         <Route path="/profile" element={<Profilepage />} />
+        <Route
+          path="/:organiserId"
+          element={isOrganizer ? <OrganiserDashboard /> : <Homepage />}
+        />
+        <Route
+          path="/edit-event/:eventId"
+          element={isOrganizer ? <EditEvent /> : <Homepage />}
+        />
       </Routes>
     </>
   );

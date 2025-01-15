@@ -108,11 +108,30 @@ userRouter.post('/login', async (req, res) => {
       user: {
         userId: user._id,
         email: user.email,
+        role: user.rol,
       },
     });
   } catch (err) {
     console.error(err);
     return res.status(500).json({ error: 'Login failed' });
+  }
+});
+
+userRouter.patch('/:userId', authMiddleware, async (req, res) => {
+  const { userId } = req.params;
+  const updates = req.body;
+
+  try {
+    const updatedUser = await User.findByIdAndUpdate(userId, updates, {
+      new: true,
+    });
+    if (!updatedUser) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+    const newUser = updatedUser.save();
+    res.status(200).json(updatedUser);
+  } catch (error) {
+    res.status(400).json({ message: 'Invalid data', error: error.message });
   }
 });
 
