@@ -249,6 +249,10 @@ body {
   color: #0a212e;
 }
 
+.nav-link {
+  color: black;
+}
+
 .navbar-brand {
   margin-left: 2.5rem;
   color: #0a212e;
@@ -258,6 +262,7 @@ body {
   border-color: #f3302d;
   background-color: #0a212e;
   color: rgb(241, 241, 241);
+  border-width: 2px;
 }
 
 .avatar {
@@ -283,6 +288,7 @@ body {
   background-color: #071b25;
   color: rgb(241, 241, 241);
   border-color: #f3302d;
+  border-width: 2px;
 }
 
 .button {
@@ -341,6 +347,10 @@ input[type='file']:focus {
   width: max-content;
   padding: 5px;
   font-size: 10x;
+}
+
+.modal {
+  color: black;
 }
 
 .spinner {

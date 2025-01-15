@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import axios from 'axios';
+import { format } from 'date-fns';
+import { ro } from 'date-fns/locale';
 
 function Homepage() {
   const navigate = useNavigate();
@@ -39,8 +41,12 @@ function Homepage() {
     setCurrentPage(pageNumber);
   };
 
+  const formatDate = (dateString) => {
+    return format(new Date(dateString), 'd MMMM yyyy, HH:mm', { locale: ro });
+  };
+
   if (loading) {
-    return <div>Loading events...</div>;
+    return <div className="days-one=regular">Loading events...</div>;
   }
 
   if (error) {
@@ -61,9 +67,28 @@ function Homepage() {
           >
             <img src={event.photo} alt={event.title} className="eventImage" />
             <div className="eventDetails">
-              <p className="eventTime">{event.date}</p>
+              <p className="eventTime">{formatDate(event.date)}</p>
               <h3 className="eventTitle">{event.name}</h3>
-              <p className="eventDetailsButton">{event.participants}</p>
+              <p className="eventDetailsButton">
+                {(() => {
+                  try {
+                    if (event.gameType === 'echipa') {
+                      const teamsArray = JSON.parse(event.teams);
+                      return teamsArray.length >= 2
+                        ? `${teamsArray[0]} VS ${teamsArray[1]}`
+                        : teamsArray.join(' VS ');
+                    } else {
+                      const participantsArray = JSON.parse(event.participants);
+                      return participantsArray.length >= 2
+                        ? `${participantsArray[0]} VS ${participantsArray[1]}`
+                        : participantsArray.join(' VS ');
+                    }
+                  } catch (error) {
+                    console.error('Error parsing data:', error);
+                    return 'Invalid data';
+                  }
+                })()}
+              </p>
               <p className="eventLocation">{event.location}</p>
             </div>
           </div>

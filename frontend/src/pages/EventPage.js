@@ -3,6 +3,8 @@ import '../index.css';
 import { useParams, useLocation } from 'react-router-dom';
 import { Row, Col } from 'react-bootstrap';
 import axios from 'axios';
+import { format } from 'date-fns';
+import { ro } from 'date-fns/locale';
 
 function EventPage() {
   const { id } = useParams();
@@ -10,11 +12,14 @@ function EventPage() {
   const [currentEvent, setCurrentEvent] = useState(
     location.state?.event || null
   );
-  const [votesTeam1, setVotesTeam1] = useState(0);
-  const [votesTeam2, setVotesTeam2] = useState(0);
+  const [votes, setVotes] = useState({});
   const [selectedOption, setSelectedOption] = useState(null);
   const [remainingTime, setRemainingTime] = useState(null);
   const [eventStatus, setEventStatus] = useState('Nu a început');
+
+  const formatEventDate = (eventDate) => {
+    return format(new Date(eventDate), 'd MMMM yyyy, HH:mm', { locale: ro });
+  };
 
   useEffect(() => {
     const fetchEvent = async () => {
@@ -35,48 +40,21 @@ function EventPage() {
     if (!currentEvent) return;
 
     const parseEventTime = () => {
-      if (!currentEvent?.time) {
+      if (!currentEvent?.date || !currentEvent?.duration) {
         setEventStatus('Invalid time data');
         setRemainingTime(0);
         return;
       }
 
-      const [date, timeRange] = currentEvent.time.split(', ');
-      const [day, month, year] = date.split(' ').map((value, index) => {
-        if (index === 0) return parseInt(value, 10);
-        if (index === 1) {
-          const months = {
-            Ianuarie: 0,
-            Februarie: 1,
-            Martie: 2,
-            Aprilie: 3,
-            Mai: 4,
-            Iunie: 5,
-            Iulie: 6,
-            August: 7,
-            Septembrie: 8,
-            Octombrie: 9,
-            Noiembrie: 10,
-            Decembrie: 11,
-          };
-          return months[value];
-        }
-        if (index === 2) return parseInt(value, 10);
-        return null;
-      });
-
-      const [startTime, endTime] = timeRange.split('-');
-      const [startHours, startMinutes] = startTime.split(':').map(Number);
-      const [endHours, endMinutes] = endTime.split(':').map(Number);
-
-      const eventStart = new Date(year, month, day, startHours, startMinutes);
-      const eventEnd = new Date(year, month, day, endHours, endMinutes);
+      const eventStart = new Date(currentEvent.date);
+      const eventDuration = currentEvent.duration * 60 * 1000;
+      const eventEnd = new Date(eventStart.getTime() + eventDuration);
 
       const now = new Date();
 
       if (now < eventStart) {
         setEventStatus('Meciul inca nu a început');
-        setRemainingTime((eventEnd - eventStart) / 1000);
+        setRemainingTime((eventStart - now) / 1000);
       } else if (now >= eventStart && now < eventEnd) {
         setEventStatus('În desfășurare');
         setRemainingTime((eventEnd - now) / 1000);
@@ -107,18 +85,22 @@ function EventPage() {
 
   const handleVote = (option) => {
     if (selectedOption === option) {
-      if (option === 'STEAUA') setVotesTeam1(votesTeam1 - 1);
-      if (option === 'DINAMO') setVotesTeam2(votesTeam2 - 1);
+      setVotes((prevVotes) => ({
+        ...prevVotes,
+        [option]: prevVotes[option] - 1,
+      }));
       setSelectedOption(null);
     } else {
-      if (option === 'STEAUA') {
-        if (selectedOption === 'DINAMO') setVotesTeam2(votesTeam2 - 1);
-        setVotesTeam1(votesTeam1 + 1);
+      if (selectedOption) {
+        setVotes((prevVotes) => ({
+          ...prevVotes,
+          [selectedOption]: prevVotes[selectedOption] - 1,
+        }));
       }
-      if (option === 'DINAMO') {
-        if (selectedOption === 'STEAUA') setVotesTeam1(votesTeam1 - 1);
-        setVotesTeam2(votesTeam2 + 1);
-      }
+      setVotes((prevVotes) => ({
+        ...prevVotes,
+        [option]: (prevVotes[option] || 0) + 1,
+      }));
       setSelectedOption(option);
     }
   };
@@ -134,13 +116,13 @@ function EventPage() {
           <div className="eventDetailsContainer">
             <img
               src={currentEvent.photo}
-              alt={currentEvent.title}
+              alt={currentEvent.name}
               className="eventImageLarge"
             />
           </div>
         </Col>
         <Col className="eventDetailsContainer eventDetails">
-          <p className="eventTime">{currentEvent.time}</p>
+          <p className="eventTime">{formatEventDate(currentEvent.date)}</p>
           <h2 className="eventTitle">{currentEvent.name}</h2>
           <p className="eventDetails">{currentEvent.details}</p>
           <p className="eventLocation">{currentEvent.location}</p>
@@ -151,24 +133,36 @@ function EventPage() {
               : `Timp ramas: ${eventStatus}`}
           </p>
 
-          <p className="pollQuestion mt-3">Cine crezi ca va castiga?</p>
+          <p className="pollQuestion mt-3">
+            {currentEvent.gameType === 'echipa'
+              ? 'Ce echipa crezi ca va castiga?'
+              : 'Cine va castiga în competitia solo?'}
+          </p>
+
           <div className="pollButtons">
-            <button
-              className={`pollButton ${
-                selectedOption === 'STEAUA' ? 'selected' : ''
-              }`}
-              onClick={() => handleVote('STEAUA')}
-            >
-              STEAUA ({votesTeam1})
-            </button>
-            <button
-              className={`pollButton ${
-                selectedOption === 'DINAMO' ? 'selected' : ''
-              }`}
-              onClick={() => handleVote('DINAMO')}
-            >
-              DINAMO ({votesTeam2})
-            </button>
+            {(() => {
+              try {
+                const options =
+                  currentEvent.gameType === 'echipa'
+                    ? JSON.parse(currentEvent.teams)
+                    : JSON.parse(currentEvent.participants);
+
+                return options.map((option, index) => (
+                  <button
+                    key={index}
+                    className={`pollButton ${
+                      selectedOption === option ? 'selected' : ''
+                    }`}
+                    onClick={() => handleVote(option)}
+                  >
+                    {option} ({votes[option] || 0})
+                  </button>
+                ));
+              } catch (error) {
+                console.error('Error parsing options:', error);
+                return <p>Invalid data for voting options</p>;
+              }
+            })()}
           </div>
           <button className="buyButton">Bilete</button>
         </Col>
